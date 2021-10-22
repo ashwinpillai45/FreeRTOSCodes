@@ -1,0 +1,13 @@
+/*
+ * FreeRTOSConfig.h
+ *
+ *  Created on: Oct 21, 2021
+ *      Author: ashwin
+ */
+
+#ifndef FREERTOS_FREERTOSCONFIG_H_
+#define FREERTOS_FREERTOSCONFIG_H_
+
+
+
+#endif /* FREERTOS_FREERTOSCONFIG_H_ */

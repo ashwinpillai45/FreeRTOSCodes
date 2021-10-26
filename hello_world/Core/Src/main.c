@@ -39,7 +39,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+#define Enable_CCYNT				(*(volatile uint32_t*)0xE0001000)
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -95,11 +95,16 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-	stat = xTaskCreate(task_handler1, "Task-1", 200, "Hello World from Task-1",
-			2, task_handle1);
+
+  Enable_CCYNT |= (1 << 0); //Enabling time stamps for SEGGER
+
+  SEGGER_SYSVIEW_Conf();
+  SEGGER_SYSVIEW_Start();
+	stat = xTaskCreate(task_handler1, "Task-1", 200, "Hello World from Task-1",	\
+			2, &task_handle1);
 	configASSERT(stat == pdPASS);
-	stat = xTaskCreate(task_handler2, "Task-2", 200, "Hello World from Task-2",
-			2, task_handle2);
+	stat = xTaskCreate(task_handler2, "Task-2", 200, "Hello World from Task-2",  \
+			2, &task_handle2);
 	configASSERT(stat == pdPASS);
     vTaskStartScheduler();
   /* USER CODE END 2 */
@@ -223,14 +228,14 @@ static void MX_GPIO_Init(void)
 static void task_handler1(void *para) {
 	while (1) {
 		printf("%s\n", (char*) para);
-		taskYIELD();
+	//	taskYIELD();
 	}
 }
 
 static void task_handler2(void *para) {
 	while (1) {
 		printf("%s\n", (char*) para);
-		taskYIELD();
+	//	taskYIELD();
 	}
 }
 /* USER CODE END 4 */
